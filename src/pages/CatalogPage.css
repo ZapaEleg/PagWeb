@@ -1,0 +1,71 @@
+.catalog-page {
+    max-width: 1200px;
+    margin: 32px auto;
+    padding: 0 24px;
+}
+
+.catalog-header h1 {
+    font-size: 2.5rem;
+    text-transform: capitalize;
+    margin-bottom: 24px;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 24px;
+}
+
+/* --- CORRECCIÓN CLAVE --- */
+.product-grid-card {
+    display: block; /* Asegura que el enlace ocupe todo el espacio de la tarjeta */
+    text-decoration: none; /* Elimina el subrayado del enlace */
+    color: inherit; /* Hereda el color del texto para que no se vea azul */
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+}
+
+.product-grid-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
+
+.product-image {
+    width: 100%;
+    height: 250px;
+    background-color: #f3f4f6;
+}
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.product-info {
+    padding: 16px;
+}
+.product-info .brand {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+.product-info .model {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 4px 0;
+}
+.product-info .price {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--primary-accent);
+}
+.loader, .error-message {
+    text-align: center;
+    padding: 40px;
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+}

@@ -1,0 +1,48 @@
+    .site-header {
+        background-color: #fff;
+        box-shadow: var(--shadow-sm);
+        padding: 16px 24px;
+        position: sticky;
+        top: 0;
+        z-index: 50;
+    }
+
+    .header-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .logo {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 700;
+        font-size: 1.5rem;
+        color: var(--text-primary);
+        text-decoration: none;
+    }
+
+    .main-nav {
+        display: flex;
+        gap: 24px;
+    }
+
+    .main-nav a {
+        font-weight: 600;
+        color: var(--text-secondary);
+        text-decoration: none;
+        padding-bottom: 4px;
+        border-bottom: 2px solid transparent;
+        transition: color 0.2s, border-color 0.2s;
+    }
+
+    .main-nav a:hover {
+        color: var(--text-primary);
+    }
+
+    .main-nav a.active {
+        color: var(--primary-accent);
+        border-bottom-color: var(--primary-accent);
+    }
+    
