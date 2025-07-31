@@ -1,0 +1,93 @@
+/* Estilos para el componente ProductCard */
+.product-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    height: 100%;
+}
+
+.product-card {
+    background-color: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s, box-shadow 0.2s;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative; /* Necesario para la insignia */
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
+
+.product-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background-color: var(--primary-accent); /* Color Naranja para ofertas */
+    color: white;
+    padding: 4px 10px;
+    border-radius: 16px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    z-index: 2;
+}
+
+.product-card-image-container {
+    width: 100%;
+    padding-top: 100%; /* Proporción 1:1 */
+    position: relative;
+    background-color: #f3f4f6;
+}
+
+.product-card-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.product-card-image-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+}
+
+.product-card-info {
+    padding: 16px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-card-brand {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.product-card-model {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 4px 0;
+    flex-grow: 1; /* Empuja el precio hacia abajo */
+}
+
+.product-card-price {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--primary-accent);
+    margin: 8px 0 0 0;
+}

@@ -111,3 +111,35 @@
 .option-button:hover {
     background-color: #e0d4fe;
 }
+
+/* ... (estilos existentes) ... */
+
+/* Modificar el contenedor principal */
+.chatbot-container {
+    position: fixed;
+    bottom: 24px;
+    left: 24px; /* Cambiar de 'right' a 'left' */
+    z-index: 1000;
+}
+
+/* (Añadir) Estilo para el botón de acción dentro del contenedor */
+.chatbot-btn-container .chat-toggle-button {
+    background-color: var(--accent-gold); /* Usar el nuevo color de acento */
+}
+.chatbot-btn-container .chat-toggle-button::before {
+    content: '¿Dudas? Pregunta aquí';
+    position: absolute;
+    width: max-content;
+    right: 70px;
+    background: white;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    box-shadow: var(--shadow-sm);
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+.chatbot-btn-container:hover .chat-toggle-button::before {
+    opacity: 1;
+}
+

@@ -1,67 +1,125 @@
-.home-page { width: 100%; }
-
-/* --- Efecto de Fade In --- */
-.fade-in-section {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+.homepage-final {
+    background-color: var(--bg-main);
 }
-.fade-in-section.is-visible {
-    opacity: 1;
-    transform: translateY(0);
+.page-content {
+    /* Este contenedor aparecerá suavemente después de la intro */
 }
 
-/* --- Hero Section --- */
-.hero-section { background-color: #fff; color: #000; padding: 4rem 1.5rem; text-align: center; display: flex; align-items: center; justify-content: center; min-height: 50vh; }
-.hero-content { max-width: 600px; margin: 0 auto; animation: fadeIn 1s ease-in-out; }
-.hero-logo-image { max-width: 250px; margin-bottom: 1.5rem; }
-.hero-tagline { font-size: 1.25rem; color: var(--text-secondary); margin: 1rem 0 2rem 0; }
-.hero-cta-button { display: inline-block; padding: 14px 32px; background-color: #000; color: #fff; text-decoration: none; border-radius: 8px; font-weight: 600; transition: all 0.2s; font-size: 1rem; }
-.hero-cta-button:hover { background-color: #333; transform: translateY(-2px); }
-
-/* --- Brands Section --- */
-.brands-section { background-color: #fff; padding: 3rem 1.5rem; width: 100%; border-top: 1px solid var(--border-color); }
-.brands-carousel { max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 40px; }
-.brand-item { height: 80px; display: flex; align-items: center; justify-content: center; }
-.brand-item img { max-height: 50px; max-width: 150px; object-fit: contain; filter: grayscale(100%); opacity: 0.6; transition: all 0.3s; }
-.brand-item img:hover { filter: grayscale(0%); opacity: 1; }
-
-/* --- About Section --- */
-.about-section { padding: 5rem 1.5rem; background-color: #f9fafb; border-top: 1px solid var(--border-color); }
-.about-content { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
-.about-text h2 { font-size: 2.5rem; margin-top: 0; line-height: 1.2; }
-.about-text p { line-height: 1.8; color: var(--text-secondary); font-size: 1.1rem; }
-.about-image { height: 400px; background-color: #e5e7eb; border-radius: 12px; background-image: url('https://i.imgur.com/your-store-image.jpg'); background-size: cover; background-position: center; } /* Reemplaza con una imagen de tu tienda */
-
-/* --- Location Section --- */
-.location-section { padding: 5rem 1.5rem; background-color: #fff; display: grid; grid-template-columns: 1fr 1fr; max-width: 1200px; margin: 0 auto; gap: 40px; align-items: center; }
-.location-map { height: 400px; width: 100%; border-radius: 12px; overflow: hidden; }
-.location-map > div { height: 100%; width: 100%; }
-.location-info h3 { font-size: 2.5rem; margin-top: 0; }
-.location-info p { display: flex; align-items: center; gap: 12px; line-height: 1.7; font-size: 1.1rem; color: var(--text-secondary); }
-.location-info p svg { color: var(--primary-accent); font-size: 1.2rem; }
-.social-links { display: flex; gap: 24px; margin-top: 24px; }
-.social-links a { color: var(--text-primary); font-size: 1.8rem; }
-.social-links a:hover { color: var(--primary-accent); transform: scale(1.1); }
-
-/* --- FAQ Section --- */
-.faq-section { padding: 5rem 1.5rem; max-width: 800px; margin: 0 auto; border-top: 1px solid var(--border-color); }
-.faq-section h2 { text-align: center; font-size: 2.5rem; margin-bottom: 3rem; }
-.faq-accordion { display: flex; flex-direction: column; gap: 16px; }
-.faq-item { border-bottom: 1px solid var(--border-color); }
-.faq-question { width: 100%; background: none; border: none; padding: 20px 0; text-align: left; font-size: 1.2rem; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-.faq-icon { transition: transform 0.3s; }
-.faq-icon.open { transform: rotate(180deg); color: var(--primary-accent); }
-.faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-in-out; }
-.faq-answer.open { max-height: 200px; }
-.faq-answer-content { padding: 0 0 20px; color: var(--text-secondary); line-height: 1.6; }
-
-/* --- Responsive --- */
-@media (max-width: 850px) {
-    .about-content, .location-section { grid-template-columns: 1fr; }
-    .about-image { order: -1; height: 300px; }
-    .location-map { height: 300px; order: -1; }
-    .location-info { text-align: center; }
-    .location-info p { justify-content: center; }
+/* Intro Animation */
+.intro-overlay {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--bg-main);
+    z-index: 200;
+    display: flex;
+    /* Los siguientes valores son para alinear el logo en el centro al inicio */
+    align-items: center;
+    justify-content: center;
+}
+.intro-overlay img {
+    max-width: 250px;
 }
 
+/* Marcas */
+.brands-section-reimagined { padding: 4rem 5%; }
+.brands-grid { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 2rem; }
+.brand-logo-card {
+    height: 100px; padding: 1.5rem;
+    background: #ffffff;
+    border-radius: 1rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.brand-logo-card img { height: 100%; object-fit: contain; filter: grayscale(1); opacity: 0.7; transition: 0.3s; }
+.brand-logo-card:hover img { filter: grayscale(0); opacity: 1; }
+
+/* Modal de Marcas */
+.brand-modal-backdrop-reimagined {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    z-index: 150;
+    display: flex; align-items: center; justify-content: center;
+    padding: 2rem;
+}
+.brand-modal-content-reimagined {
+    background: var(--bg-main);
+    max-width: 90%; width: 1200px; height: 90vh;
+    border-radius: 1.5rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    position: relative;
+    padding: 2rem;
+    overflow-y: auto;
+}
+.close-modal-btn-reimagined {
+    position: absolute; top: 1rem; right: 1rem; background: #fff; border: none;
+    width: 40px; height: 40px; border-radius: 50%; font-size: 1.5rem; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+}
+.modal-brand-logo-reimagined { max-height: 50px; display: block; margin: 1rem auto 2rem; }
+.modal-product-grid-reimagined {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.5rem; padding: 0 1rem;
+}
+
+/* Sobre Nosotros */
+.about-us-reimagined {
+    background: var(--bg-dark-section); color: var(--text-light);
+    padding: 8rem 5%; text-align: center;
+}
+.about-us-reimagined h2 { font-size: 3rem; color: var(--accent-gold); margin-bottom: 1.5rem; }
+.about-us-reimagined p {
+    font-family: var(--font-sans); font-size: 1.2rem; line-height: 1.8;
+    max-width: 800px; margin: 0 auto; opacity: 0.9;
+}
+
+/* Productos Populares */
+.popular-products-category { padding: 6rem 5%; }
+.category-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 2rem; border-bottom: 1px solid #ddd; padding-bottom: 1rem;
+}
+.category-header h2 { font-size: 2.5rem; margin: 0; }
+.see-all-link {
+    display: flex; align-items: center; gap: 0.5rem; text-decoration: none;
+    color: var(--accent-gold); font-weight: 600;
+}
+.product-swiper .swiper-slide { width: 300px !important; height: auto; padding-bottom: 2rem; } /* Añadido padding para las flechas */
+.product-swiper .swiper-button-next, .product-swiper .swiper-button-prev { color: var(--accent-gold) !important; }
+
+/* Ubicación */
+.location-reimagined {
+    display: grid; grid-template-columns: 1fr 1.5fr; align-items: stretch;
+    background: var(--bg-dark-section); color: var(--text-light);
+}
+.location-content { padding: 5rem; display: flex; flex-direction: column; justify-content: center; }
+.location-content h2 { color: var(--accent-gold); }
+.map-embed-container { min-height: 400px; }
+.map-cta {
+    display: inline-block; background: var(--accent-gold); color: var(--text-dark);
+    padding: 0.8rem 2rem; text-decoration: none; border-radius: 50px; font-weight: 600; margin-top: 1.5rem;
+    align-self: flex-start;
+}
+
+/* Redes y Footer */
+.social-proof-section { text-align: center; padding: 6rem 5%; }
+.social-links-reimagined { display: flex; justify-content: center; gap: 2rem; font-size: 2rem; margin-top: 1rem; }
+.social-links-reimagined a { color: var(--text-dark); }
+.main-footer { text-align: center; padding: 2rem 5%; background: var(--bg-dark-section); color: var(--text-muted); }
+
+/* Botones Flotantes */
+.floating-btn {
+    position: fixed; bottom: 2rem;
+    width: 60px; height: 60px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.8rem; color: white; box-shadow: var(--shadow-md); z-index: 50;
+}
+.whatsapp-btn { right: 2rem; background: #25D366; }
+.chatbot-btn-container { left: 2rem; }
+
+/* Responsive */
+@media (max-width: 900px) {
+    .location-reimagined { grid-template-columns: 1fr; }
+    .location-content { order: 1; text-align: center; }
+    .map-cta { align-self: center; }
+}

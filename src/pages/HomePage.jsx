@@ -1,147 +1,151 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
-import { toast } from 'react-toastify';
-import { useInView } from 'react-intersection-observer';
-import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps';
-import { FiChevronDown, FiMapPin, FiPhone, FiInstagram, FiFacebook } from 'react-icons/fi';
-import { FaTiktok } from 'react-icons/fa';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+
+import { FiMapPin, FiInstagram, FiFacebook, FiX, FiArrowRight } from 'react-icons/fi';
+import { FaTiktok } from 'react-icons/fa'; // <-- CORRECCIÓN: Se añade la importación que faltaba
+import ProductCard from '../components/ProductCard';
 import './HomePage.css';
 
-// --- Componente Reutilizable para Efecto de Scroll ---
-const FadeInSection = ({ children }) => {
-    const { ref, inView } = useInView({
-        triggerOnce: true, // La animación solo ocurre una vez
-        threshold: 0.1, // Se activa cuando el 10% del elemento es visible
-    });
-
-    return (
-        <section ref={ref} className={`fade-in-section ${inView ? 'is-visible' : ''}`}>
-            {children}
-        </section>
-    );
-};
-
-// --- Componente para el Acordeón de FAQ ---
-const FaqItem = ({ question, children }) => {
-    const [isOpen, setIsOpen] = useState(false);
-    return (
-        <div className="faq-item">
-            <button className="faq-question" onClick={() => setIsOpen(!isOpen)}>
-                <span>{question}</span>
-                <FiChevronDown className={`faq-icon ${isOpen ? 'open' : ''}`} />
-            </button>
-            <div className={`faq-answer ${isOpen ? 'open' : ''}`}>
-                <div className="faq-answer-content">{children}</div>
-            </div>
-        </div>
-    );
-};
+// Componente para animaciones de scroll
+const AnimatedSection = ({ children }) => (
+    <motion.section
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+    >
+        {children}
+    </motion.section>
+);
 
 const HomePage = () => {
     const [brands, setBrands] = useState([]);
-    const [logoUrl, setLogoUrl] = useState(''); // Estado para la URL del logo
-    const storePosition = { lat: 19.4336, lng: -98.9655 }; // Coordenadas de la tienda
-
+    const [popularProducts, setPopularProducts] = useState({});
+    const [selectedBrand, setSelectedBrand] = useState(null);
+    const [brandProducts, setBrandProducts] = useState([]);
+    
     useEffect(() => {
         const fetchData = async () => {
-            try {
-                // Obtener logos de marcas
-                const { data: brandsData, error: brandsError } = await supabase.from('brands').select('name, logo_url').not('logo_url', 'is', null).order('name');
-                if (brandsError) throw brandsError;
-                setBrands(brandsData);
+            const [brandsRes, popularRes] = await Promise.all([
+                supabase.from('brands').select('*').not('logo_url', 'is', null),
+                supabase.rpc('get_products_by_tag', { tag_name: 'destacado' })
+            ]);
 
-                // Obtener URL del logo principal
-                const { data: logoData, error: logoError } = await supabase
-                    .from('site_config')
-                    .select('value')
-                    .eq('key', 'main_logo_url')
-                    .single();
-                if (logoError) throw logoError;
-                setLogoUrl(logoData.value);
-
-            } catch (error) {
-                toast.error("No se pudieron cargar los datos de la página.");
-                console.error("Error fetching data:", error);
+            if (brandsRes.data) setBrands(brandsRes.data);
+            if (popularRes.data) {
+                const grouped = popularRes.data.reduce((acc, product) => {
+                    const category = product.category || 'otros';
+                    if (!acc[category]) acc[category] = [];
+                    acc[category].push(product);
+                    return acc;
+                }, {});
+                setPopularProducts(grouped);
             }
         };
         fetchData();
     }, []);
 
+    const handleBrandClick = async (brand) => {
+        setSelectedBrand(brand);
+        const { data } = await supabase.from('products').select(`*, brands(name), variants(price)`).eq('brand_id', brand.id).limit(20);
+        const formatted = data.map(p => ({ ...p, price: p.variants?.[0]?.price || 0, brandName: p.brands.name }));
+        setBrandProducts(formatted);
+    };
+    
     return (
-        <div className="home-page">
-            <section className="hero-section">
-                <div className="hero-content">
-                    {logoUrl ? 
-                        <img src={logoUrl} alt="ZapaEleg Logo" className="hero-logo-image" /> :
-                        <h1 className="hero-logo-text">ZapaEleg</h1>
-                    }
-                    <p className="hero-tagline">Calidad, Confort y Durabilidad a tus Pies.</p>
-                    <Link to="/catalogo/dama" className="hero-cta-button">Descubre la Colección</Link>
-                </div>
-            </section>
-
-            <FadeInSection>
-                <div className="brands-section">
-                    <div className="brands-carousel">
-                        {brands.map((brand) => (
-                            <div key={brand.name} className="brand-item"><img src={brand.logo_url} alt={brand.name} /></div>
+        <div className="homepage-final">
+            {/* El header ya no está aquí, se renderiza desde Layout.jsx */}
+            
+            <AnimatedSection>
+                <div className="brands-section-reimagined">
+                    <h2 className="section-title">Nuestras Marcas de Prestigio</h2>
+                    <div className="brands-grid">
+                        {brands.map(brand => (
+                            <motion.div key={brand.id} className="brand-logo-card" onClick={() => handleBrandClick(brand)} whileHover={{scale: 1.1, boxShadow: "0 10px 20px rgba(0,0,0,0.1)"}}>
+                                <img src={brand.logo_url} alt={brand.name}/>
+                            </motion.div>
                         ))}
                     </div>
                 </div>
-            </FadeInSection>
+            </AnimatedSection>
 
-            <FadeInSection>
-                <div className="about-section">
-                    <div className="about-content">
-                        <div className="about-text">
-                            <h2>Nuestra Historia</h2>
-                            <p>Desde 1970 en el corazón de Chimalhuacán, ZapaEleg es más que una zapatería: es la herencia de una familia dedicada a ofrecer no solo calzado, sino soluciones. Creemos en la calidad que perdura y en la atención que recuerda tu nombre. Bienvenido a casa.</p>
+            <AnimatePresence>
+                {selectedBrand && (
+                    <motion.div className="brand-modal-backdrop-reimagined" initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}}>
+                        <motion.div className="brand-modal-content-reimagined" initial={{scale:0.9, opacity: 0}} animate={{scale:1, opacity: 1}} exit={{scale:0.9, opacity: 0}} transition={{duration: 0.3}}>
+                            <button onClick={() => setSelectedBrand(null)} className="close-modal-btn-reimagined"><FiX/></button>
+                            <img src={selectedBrand.logo_url} alt={selectedBrand.name} className="modal-brand-logo-reimagined"/>
+                            <div className="modal-product-grid-reimagined">
+                                {brandProducts.length > 0 ? brandProducts.map(p => <ProductCard key={p.id} product={p}/>) : <p>No hay productos para esta marca.</p>}
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            <AnimatedSection>
+                <section className="about-us-reimagined">
+                    <h2>El Arte de Caminar con Estilo y Bienestar</h2>
+                    <p>Desde 1970, somos más que una zapatería: somos artesanos de la confianza...</p>
+                </section>
+            </AnimatedSection>
+
+            {Object.keys(popularProducts).length > 0 ? Object.entries(popularProducts).map(([category, products]) => (
+                <AnimatedSection key={category}>
+                    <section className="popular-products-category">
+                        <div className="category-header">
+                            <h2>Destacados de {category.charAt(0).toUpperCase() + category.slice(1)}</h2>
+                            <Link to={`/catalogo/${category}`} className="see-all-link">Ver Todos <FiArrowRight/></Link>
                         </div>
-                        <div className="about-image"></div>
-                    </div>
-                </div>
-            </FadeInSection>
+                        <Swiper modules={[Navigation]} spaceBetween={30} slidesPerView={'auto'} navigation className="product-swiper">
+                            {products.map(product => (
+                                <SwiperSlide key={product.id}><ProductCard product={product}/></SwiperSlide>
+                            ))}
+                        </Swiper>
+                    </section>
+                </AnimatedSection>
+            )) : (
+                <AnimatedSection>
+                    <section className="popular-products-category">
+                        <div className="category-header"><h2>Nuestros Destacados</h2></div>
+                        <p style={{textAlign: 'center', color: 'var(--text-muted)'}}>Próximamente encontrarás aquí nuestra selección especial de productos.</p>
+                    </section>
+                </AnimatedSection>
+            )}
 
-            <FadeInSection>
-                <div className="location-section">
-                    <div className="location-map">
-                        <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
-                            <Map center={storePosition} zoom={17} mapId="zapaeleg-map-id">
-                                <Marker position={storePosition} />
-                            </Map>
-                        </APIProvider>
+            <AnimatedSection>
+                <section className="location-reimagined">
+                    <div className="location-content">
+                        <h2>El Punto de Encuentro de la Elegancia</h2>
+                        <p><FiMapPin/> Av. Felipe Berriozabal Manzana 6 Lote 10, Ebanistas, 56363 Chimalhuacán, Méx.</p>
+                        <a href="https://maps.app.goo.gl/gbvvSbKSwQToe2J99?g_st=ipc" target="_blank" rel="noopener noreferrer" className="map-cta">Obtener Direcciones</a>
                     </div>
-                    <div className="location-info">
-                        <h3>Encuéntranos</h3>
-                        <p><FiMapPin /> Av. del Peñón Manzana 003, Xochiaca, 56340 Chimalhuacán, Méx.</p>
-                        <p><strong>Horarios:</strong> Lunes a Sábado de 10:00 a 20:00 hrs</p>
-                        <p><FiPhone /> 55-1234-5678</p>
-                        <div className="social-links">
-                            <a href="https://www.facebook.com/share/PWQgWyapxcK7hrSf/?mibextid=LQQJ4d" target="_blank" rel="noopener noreferrer" title="Facebook"><FiFacebook/></a>
-                            <a href="https://www.instagram.com/laeleganciazapteria?igsh=MXd3a25lb3N0bzdqdA==" target="_blank" rel="noopener noreferrer" title="Instagram"><FiInstagram/></a>
-                            <a href="https://www.tiktok.com/@laeleganciazapateria?_t=8okCYeZExzK&_r=1=" target="_blank" rel="noopener noreferrer" title="TikTok"><FaTiktok/></a>
-                        </div>
+                    <div className="map-embed-container">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3762.793739054718!2d-98.96633742575978!3d19.4213881404117!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d1e20436150a23%3A0x955210452395d85c!2sZapateria%20La%20Elegancia!5e0!3m2!1ses-419!2smx!4v1722374474149!5m2!1ses-419!2smx"
+                            width="100%" height="100%" style={{ border: 0 }} allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade">
+                        </iframe>
                     </div>
-                </div>
-            </FadeInSection>
-
-            <FadeInSection>
-                <div className="faq-section">
-                    <h2>Preguntas Frecuentes</h2>
-                    <div className="faq-accordion">
-                        <FaqItem question="¿Cómo puedo saber mi talla correcta?">
-                            <p>Para encontrar tu talla perfecta, coloca una hoja de papel en el suelo, pisa sobre ella y marca el contorno de tu pie. Luego, mide la distancia en centímetros desde el talón hasta la punta del dedo más largo. ¡Esa medida es tu talla!</p>
-                        </FaqItem>
-                        <FaqItem question="¿Qué métodos de pago aceptan?">
-                            <p>Aceptamos pagos seguros a través de transferencia bancaria (SPEI) y pagos en efectivo al recoger en tienda. Al finalizar tu pedido online, te proporcionaremos los datos necesarios.</p>
-                        </FaqItem>
-                        <FaqItem question="¿Cuáles son los costos y tiempos de envío?">
-                            <p>Ofrecemos una tarifa fija para envíos locales en la zona. También puedes elegir recoger tu pedido en nuestra tienda física sin costo. El tiempo de entrega local es de 1 a 2 días hábiles.</p>
-                        </FaqItem>
+                </section>
+            </AnimatedSection>
+            
+            <AnimatedSection>
+                <section className="social-proof-section">
+                    <h2>Una Comunidad con Estilo Propio</h2>
+                    <p>Sigue nuestro legado y descubre las últimas colecciones en nuestras redes.</p>
+                    <div className="social-links-reimagined">
+                        <a href="#"><FiFacebook/></a>
+                        <a href="#"><FiInstagram/></a>
+                        <a href="#"><FaTiktok/></a>
                     </div>
-                </div>
-            </FadeInSection>
+                </section>
+            </AnimatedSection>
         </div>
     );
 };
