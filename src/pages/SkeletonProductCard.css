@@ -1,0 +1,33 @@
+.skeleton-card {
+    background-color: var(--bg-subtle);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+}
+
+.skeleton-image {
+    width: 100%;
+    padding-top: 100%; /* Proporción 1:1 */
+}
+
+.skeleton-card-info {
+    padding: 1rem;
+}
+
+.skeleton-brand {
+    width: 40%;
+    height: 0.8rem;
+    margin: 0 auto 0.5rem auto;
+}
+
+.skeleton-model {
+    width: 80%;
+    height: 1.1rem;
+    margin: 0 auto 0.75rem auto;
+}
+
+.skeleton-price {
+    width: 50%;
+    height: 1.3rem;
+    margin: 0 auto;
+}

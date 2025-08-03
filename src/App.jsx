@@ -1,37 +1,53 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import React, { Suspense, lazy } from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
 
-// Importar Layout y páginas
+// Importación de componentes principales
 import Layout from './components/Layout';
-import HomePage from './pages/HomePage';
-import CatalogPage from './pages/CatalogPage';
-import ProductDetailPage from './pages/ProductDetailPage';
-import CartPage from './pages/CartPage';
-import CheckoutPage from './pages/CheckoutPage';
-import OrderConfirmationPage from './pages/OrderConfirmationPage';
-import NotFoundPage from './pages/NotFoundPage';
-import OffersPage from './pages/OffersPage';
+import PageLoader from './components/PageLoader'; // Un componente para la carga de página
+
+// Lazy-loading de las páginas para mejorar el rendimiento inicial
+const HomePage = lazy(() => import('./pages/HomePage'));
+const CatalogPage = lazy(() => import('./pages/CatalogPage'));
+const ProductDetailPage = lazy(() => import('./pages/ProductDetailPage'));
+const CartPage = lazy(() => import('./pages/CartPage'));
+const CheckoutPage = lazy(() => import('./pages/CheckoutPage'));
+const OrderConfirmationPage = lazy(() => import('./pages/OrderConfirmationPage'));
+const OffersPage = lazy(() => import('./pages/OffersPage'));
+const AboutPage = lazy(() => import('./pages/AboutPage')); // Nueva página
+const LoginPage = lazy(() => import('./pages/LoginPage')); // Nueva página
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 
 function App() {
-  return (
-    <Routes>
-      {/* Todas las rutas que deben tener header y footer van dentro de Layout */}
-      <Route path="/" element={<Layout />}>
-        <Route index element={<HomePage />} />
-        <Route path="catalogo/:category" element={<CatalogPage />} />
-        <Route path="ofertas" element={<OffersPage />} />
-        <Route path="producto/:productId" element={<ProductDetailPage />} />
-        <Route path="carrito" element={<CartPage />} />
-        <Route path="checkout" element={<CheckoutPage />} />
-        <Route path="confirmacion/:orderId" element={<OrderConfirmationPage />} />
-        <Route path="ortopedia" element={<div>Página de Ortopedia</div>} />
-      </Route>
-      
-      {/* Rutas que no usan el Layout principal, como una futura página de login */}
-      {/* <Route path="/login" element={<LoginPage />} /> */}
+  const location = useLocation();
 
-      <Route path="*" element={<NotFoundPage />} />
-    </Routes>
+  return (
+    // Suspense se usa con lazy-loading para mostrar un fallback mientras carga el componente
+    <Suspense fallback={<PageLoader />}>
+      {/* AnimatePresence permite animar componentes cuando entran o salen del DOM */}
+      <AnimatePresence mode="wait">
+        <Routes location={location} key={location.pathname}>
+          {/* Rutas que usan el Layout principal (Header/Footer) */}
+          <Route path="/" element={<Layout />}>
+            <Route index element={<HomePage />} />
+            <Route path="catalogo/:category" element={<CatalogPage />} />
+            <Route path="ofertas" element={<OffersPage />} />
+            <Route path="producto/:productId" element={<ProductDetailPage />} />
+            <Route path="carrito" element={<CartPage />} />
+            <Route path="checkout" element={<CheckoutPage />} />
+            <Route path="confirmacion/:orderId" element={<OrderConfirmationPage />} />
+            <Route path="nosotros" element={<AboutPage />} />
+            <Route path="ortopedia" element={<div>Página de Ortopedia en construcción</div>} />
+          </Route>
+          
+          {/* Rutas sin el Layout principal */}
+          <Route path="/login" element={<LoginPage />} />
+
+          {/* Ruta para todo lo demás */}
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </AnimatePresence>
+    </Suspense>
   );
 }
 

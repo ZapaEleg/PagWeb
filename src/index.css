@@ -1,19 +1,36 @@
-/* Paleta de Colores "Tierra y Lujo" */
+/* Paleta de Colores "Tierra y Lujo" - Refinada */
 :root {
-  --bg-main: #f8f5f2; /* Beige muy claro, casi blanco */
-  --bg-dark-section: #2c2a29; /* Café oscuro/Carbón */
-  --text-dark: #1c1c1c;
-  --text-light: #f8f5f2;
-  --text-muted: #7d7d7d;
-  --accent-gold: #c5a47e; /* Dorado/Miel */
-  --accent-gold-hover: #b3926c;
-  
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  /* Colores Base */
+  --bg-main: #f8f5f2;             /* Beige Arena: Calidez y limpieza */
+  --bg-dark-section: #2c2a29;      /* Carbón Oscuro: Sofisticación y contraste */
+  --bg-subtle: #ffffff;           /* Blanco Puro: Para tarjetas y elementos destacados */
+
+  /* Colores de Texto */
+  --text-dark: #1c1c1c;            /* Casi Negro: Legibilidad máxima */
+  --text-light: #f8f5f2;           /* Beige Claro: Para fondos oscuros */
+  --text-muted: #7d7d7d;           /* Gris Medio: Para texto secundario */
+  --text-gold: #c5a47e;            /* Dorado: Para acentos especiales */
+
+  /* Colores de Acento y Estado */
+  --accent-gold: #c5a47e;          /* Oro Viejo: El toque de lujo para CTAs primarios */
+  --accent-gold-hover: #b3926c;    /* Oro Viejo Oscuro: Para hover */
+  --accent-success: #28a745;       /* Verde Éxito: Para confirmaciones */
+  --accent-error: #dc3545;         /* Rojo Error: Para alertas */
+  --border-color: #e5e7eb;         /* Gris Claro: Para bordes sutiles */
+
+  /* Sombras y Elevación */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 5px 15px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
 
   /* Tipografía */
   --font-serif: 'Cormorant Garamond', serif;
   --font-sans: 'Inter', sans-serif;
+}
+
+/* Reseteo y Estilos Globales */
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 
 body {
@@ -23,13 +40,98 @@ body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
 }
 
-* {
-  box-sizing: border-box;
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-top: 0;
+  margin-bottom: 1rem;
 }
 
-h1, h2, h3, h4 {
-    font-family: var(--font-serif);
-    font-weight: 700;
+p {
+  margin-top: 0;
+  margin-bottom: 1.25rem;
+}
+
+a {
+  color: var(--accent-gold);
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+}
+
+a:hover {
+  color: var(--accent-gold-hover);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Clases de Botones Reutilizables */
+.btn {
+  display: inline-block;
+  font-weight: 600;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  user-select: none;
+  background-color: transparent;
+  border: 2px solid transparent;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 50px; /* Botones redondeados para un look moderno */
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-primary {
+  color: var(--bg-dark-section);
+  background-color: var(--accent-gold);
+  border-color: var(--accent-gold);
+}
+
+.btn-primary:hover {
+  color: var(--bg-dark-section);
+  background-color: var(--accent-gold-hover);
+  border-color: var(--accent-gold-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-secondary {
+  color: var(--text-dark);
+  background-color: transparent;
+  border-color: var(--text-dark);
+}
+
+.btn-secondary:hover {
+  color: var(--bg-subtle);
+  background-color: var(--text-dark);
+}
+
+/* Estilos para Skeleton Loaders */
+.skeleton {
+  background-color: #e2e8f0;
+  border-radius: 0.5rem;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  50% {
+    opacity: .5;
+  }
+}
+
+.skeleton-text {
+  height: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.skeleton-text:last-child {
+  margin-bottom: 0;
+  width: 80%;
 }

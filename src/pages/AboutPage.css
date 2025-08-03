@@ -1,0 +1,124 @@
+.about-page {
+    padding-bottom: 4rem;
+}
+
+.about-hero {
+    background: var(--bg-dark-section);
+    color: var(--text-light);
+    text-align: center;
+    padding: 5rem 2rem;
+}
+
+.about-hero h1 {
+    font-size: clamp(2.8rem, 6vw, 4.5rem);
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin: 1rem auto 0 auto;
+}
+
+.timeline-section, .values-section {
+    max-width: 900px;
+    margin: 4rem auto;
+    padding: 0 2rem;
+}
+
+.section-title {
+    text-align: center;
+}
+
+.timeline {
+    position: relative;
+    margin-top: 3rem;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 20px;
+    height: 100%;
+    width: 3px;
+    background: var(--border-color);
+}
+
+@media (min-width: 768px) {
+    .timeline::before {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 50px;
+    padding-left: 50px;
+}
+
+.timeline-year {
+    position: absolute;
+    top: 5px;
+    left: -15px;
+    background: var(--accent-gold);
+    color: var(--text-dark);
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+.timeline-content h3 {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+@media (min-width: 768px) {
+    .timeline-item {
+        width: 50%;
+        padding-left: 0;
+        padding-right: 50px;
+        text-align: right;
+    }
+    .timeline-item:nth-child(odd) {
+        left: 0;
+    }
+    .timeline-item:nth-child(even) {
+        left: 50%;
+        padding-left: 50px;
+        padding-right: 0;
+        text-align: left;
+    }
+    .timeline-year {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
+
+.values-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+@media (min-width: 768px) {
+    .values-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.value-card {
+    background: var(--bg-subtle);
+    padding: 2rem;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+}
+
+.value-icon {
+    color: var(--accent-gold);
+    margin-bottom: 1rem;
+}

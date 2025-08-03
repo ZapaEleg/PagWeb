@@ -1,0 +1,112 @@
+.main-footer {
+    background-color: var(--bg-dark-section);
+    color: var(--text-light);
+    padding: 4rem 5% 2rem;
+    font-size: 0.9rem;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2.5rem;
+    margin-bottom: 3rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.footer-column h4 {
+    font-family: var(--font-serif);
+    color: var(--accent-gold);
+    margin-bottom: 1.5rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.footer-logo {
+    font-size: 1.8rem !important;
+    font-weight: 700;
+}
+
+.footer-column p {
+    color: var(--text-muted);
+    line-height: 1.7;
+}
+
+.footer-column.links ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-column.links li {
+    margin-bottom: 0.75rem;
+}
+
+.footer-column.links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.footer-column.links a:hover {
+    color: var(--accent-gold);
+    padding-left: 5px;
+}
+
+.footer-column.contact a {
+    color: var(--text-muted);
+}
+.footer-column.contact a:hover {
+    color: var(--accent-gold);
+}
+
+.social-icons {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.social-icons a {
+    color: var(--text-muted);
+    font-size: 1.5rem;
+    transition: all 0.2s;
+}
+
+.social-icons a:hover {
+    color: var(--accent-gold);
+    transform: translateY(-3px);
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    text-align: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    color: var(--text-muted);
+}
+
+.footer-bottom-links a {
+    color: var(--text-muted);
+    margin-left: 1.5rem;
+}
+.footer-bottom-links a:hover {
+    color: var(--accent-gold);
+}
+
+@media (max-width: 768px) {
+    .footer-content {
+        text-align: center;
+    }
+    .social-icons {
+        justify-content: center;
+    }
+    .footer-bottom {
+        flex-direction: column;
+    }
+}
